@@ -1,0 +1,51 @@
+#!/bin/bash 
+# Radio daemon post install script
+# $Id: radioweb.postinst,v 1.4 2023/11/08 17:10:26 bob Exp $
+
+# File locations
+DIR=/usr/share/radioweb
+OMPD=/var/www/html/ompd
+WWW=/var/www/html
+TARFILE=${DIR}/piradio_web.tar.gz
+APACHE_CONFIG=/etc/apache2
+CGILOAD=cgi.load
+CONFIG=/etc/apache2/apache2.conf
+
+if [[ -d ${OMPD} ]]; then
+	echo "The web pages appear to be already installed"
+	echo "Updating web pages and CGI scripts in Apache"
+else 
+	echo "Installing web pages and CGI scripts in Apache"
+fi
+
+apachectl stop
+
+# Change to root
+cd /
+echo "Extracting files from  ${TARFILE} to $(pwd)"
+sudo tar -xvf ${TARFILE} > /dev/null
+
+sudo chown -R www-data:www-data /var/www/html/*
+sudo chown www-data:www-data /usr/lib/cgi-bin/*
+
+# Enable cgi scripts
+if [[ ! -f  ${APACHE_CONFIG}/mods-enabled/${CGILOAD} ]]; then
+   ln -s ${APACHE_CONFIG}/mods-available/${CGILOAD}  ${APACHE_CONFIG}/mods-enabled/${CGILOAD}
+fi
+
+# Enable gd and mbstring modules
+sudo phpenmod gd
+sudo phpenmod mbstring
+
+if [[ -f ${WWW}/index.html ]]; then
+    echo "Moving ${WWW}/index.html to ${WWW}/index.html.save" 
+    sudo mv ${WWW}/index.html ${WWW}/index.html.save 
+fi
+
+# Set serverName directive
+LINE="ServerName localhost"
+grep -qF "$LINE" "$CONFIG"  || echo "$LINE" | sudo tee --append "$CONFIG"
+# Restart web server
+apachectl start
+
+# End of post-installation script

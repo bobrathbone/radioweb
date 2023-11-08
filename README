@@ -1,0 +1,63 @@
+How to build the radiod web interface
+
+1) First install the last known radioweb package, for example radiodweb_3.0_armhf.deb
+    sudo dpkg -i radiodweb_3.0_armhf.deb
+2) Change to /var/www/html and make changes to web pages (including the ompd directory)
+3) Once changes tested and OK change to the radioweb package  development directory
+    cd ~develop/pi/radioweb
+
+
+Updating O!MPD from GitHub
+--------------------------
+cd
+git clone https://github.com/ArturSierzant/OMPD/
+mv OMPD ompd
+tar -cvf ompd.tar ompd
+cd /var/www/html
+tar -xfv ~/ompd.tar
+
+Amend login credentials in ompd/include/config.inc.php 
+//  +------------------------------------------------------------------------+
+//  | MySQL configuration                                                    |
+//  +------------------------------------------------------------------------+
+$cfg['mysqli_host']                 = '127.0.0.1';
+$cfg['mysqli_db']                   = 'ompd';
+$cfg['mysqli_user']                 = 'pi';
+$cfg['mysqli_password']             = 'raspberry';
+$cfg['mysqli_port']                 = '3306';
+$cfg['mysqli_socket']               = '';
+$cfg['mysqli_auto_create_db']       = true;
+
+Amend menus to include 'Back' in OMPD top menu
+    cd /var/www/htmlcd /var/www/html/ompd/skin
+    ls
+    dark_red  dark_wide  ompd_dark  ompd_darker  ompd_default  ompd_the_first  styles_inc.less
+In each of the above directories you will find the top level menu
+    cd ompd_default/
+    sudo vi template.header.php
+Find the following line
+    <div id="fixedMenu">
+Add the following line after 'favorites' menu item
+        <td class="menu_top<?php echo ($cfg['menu'] == 'back') ? ' menu_top_selected' : ''; ?>" onclick="javascript: window.location.href='/index.html';">&nbsp;back</td>
+
+Do this for each of the other schemes in the skin directory
+
+Run a build to create new version 
+---------------------------------
+Save original package flie piradio_web.tar.gz 
+    cd ~develop/pi/radioweb
+    cp piradio_web.tar.gz ~/piradio_web.tar.gz.save
+Make a backup of the changed web pages. 
+    sudo tar -cvf newradioweb.tar /var/www/html /usr/lib/cgi-bin
+Overwrite the development pages with the tested live pages
+    cd ~develop/pi/radioweb
+    tar -xvf newradioweb.tar
+Build new package
+    Change the version number in the radiodweb package definition file  
+Run the new build
+    ./build.sh
+
+Updating CVS
+------------
+Only store the toplevel radioweb and usr directories in CVS. Do not add the var directory
+

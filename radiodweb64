@@ -1,0 +1,44 @@
+### Commented entries have reasonable defaults.
+### Uncomment to edit them.
+# $Id: radiodweb64,v 1.3 2023/11/08 10:34:35 bob Exp $
+# Source: <source package name; defaults to package name>
+Section: misc
+Priority: optional
+Homepage: http://www.bobrathbone.com
+Standards-Version: 3.9.2
+
+# Install following packages
+#sudo apt-get install php8.2-gd
+#sudo apt install mariadb-server php-mysql -y
+#sudo apt-get install php8.2-mbstring
+
+Package: radiodweb
+Version: 3.0
+Maintainer: Bob Rathbone <bob@bobrathbone.com>
+# Pre-Depends: <comma-separated list of packages>
+# Depends: <comma-separated list of packages>
+Depends: apache2,php,libapache2-mod-php,mpc,mpd,php8.2-gd,php8.2-mbstring,mariadb-server,php-mysql
+# Recommends: <comma-separated list of packages>
+# Suggests: <comma-separated list of packages>
+# Provides: <comma-separated list of packages>
+# Replaces: <comma-separated list of packages>
+# Architecture: all
+Architecture: arm64
+
+# Copyright: <defaults to GPL2>
+# Changelog: <changelog file; defaults to a generic changelog>
+# Readme: <README.Debian file; defaults to a generic one>
+# Extra-Files: <comma-separated list of additional files for the doc directory>
+# Extra-Files: README
+
+# Files: <pair of space-separated paths; First is file to include, second is destination>
+Files: piradio_web.tar.gz  /usr/share/radioweb
+
+postinst: radioweb.postinst
+postrm: radioweb.postrm
+#  <more pairs, if there's more than one file to include. Notice the starting space>
+Description: Raspberry PI radio web interface
+ This package provides a radio daemon web interface
+ .
+ It requires apache2 php(PHP8) libapache2-mod-php run (Install separately)
+
