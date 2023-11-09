@@ -1,63 +1,69 @@
-How to build the radiod web interface
+Software installation - Version 3.0
+=================================== 
 
-1) First install the last known radioweb package, for example radiodweb_3.0_armhf.deb
-    sudo dpkg -i radiodweb_3.0_armhf.deb
-2) Change to /var/www/html and make changes to web pages (including the ompd directory)
-3) Once changes tested and OK change to the radioweb package  development directory
-    cd ~develop/pi/radioweb
+The software is normally downloaded from the BRCC website:
+https://bobrathbone.com/raspberrypi/pi_internet_radio.html
+It is the web interface for the radiod package.
+See: https://bobrathbone.com/raspberrypi/pi_internet_radio.html
+
+Two packages are availble for the Bookworm OS
+
+Package                 Operating system    PHP version 
+=======                 ================    ===========
+radiodweb_3.0_armhf.deb Bookworm 32-Bit OS  PHP 8.2 
+radiodweb_3.0_arm64.deb Bookworm 64-Bit OS  PHP 8.2 
+
+Install pre-requisites
+----------------------
+Run update to refresh package lists.
+$ sudo apt update
+(The $ sign means the Command Line prompt - Don't copy it, just copy the instruction)
+
+Now upgrade the packages
+$ sudo apt upgrade
+
+Re-run the update to refresh package lists.
+$ sudo apt update
+
+Now install Apache and the PHP libraries for Apache as user root. 
+
+Run the following command to install the Apache Web server:
+$ sudo apt install apache2 php libapache2-mod-php 
+
+Now install the correct version of PHP. It is different for Bookworm and Bullseye.
+For Bookworm run:
+
+$ sudo apt install php8.2-gd php8.2-mbstring
+
+Install PHP 8.2 and the MariaDB database.
+$ sudo apt install php8.2-gd php8.2-mbstring mariadb-server php-mysql
+
+Install PHP curl 
+$ sudo apt install php8.2-curl
+
+Download and install the appropriate package for your architecture (32 or 64-bit)
+
+32-bit OS
+---------
+wget https://bobrathbone.com/raspberrypi/packages/radiodweb_3.0_armhf.deb
+sudo dpkg -i radiodweb_3.0_armhf.deb
+
+64-bit OS
+---------
+wget https://bobrathbone.com/raspberrypi/packages/radiodweb_3.0_arm64.deb
+sudo dpkg -i radiodweb_3.0_armhf.deb
+
+Downloading the source from GitHub
+==================================
+github clone https://github.com/bobrathbone/radioweb
+
+For developers, how to build the radiod web interface
+=====================================================
+The procedure for building the 32- and 64-bit radioweb packages is 
+fully described in the following Wiki:
+https://github.com/bobrathbone/radioweb/wiki
 
 
-Updating O!MPD from GitHub
---------------------------
-cd
-git clone https://github.com/ArturSierzant/OMPD/
-mv OMPD ompd
-tar -cvf ompd.tar ompd
-cd /var/www/html
-tar -xfv ~/ompd.tar
 
-Amend login credentials in ompd/include/config.inc.php 
-//  +------------------------------------------------------------------------+
-//  | MySQL configuration                                                    |
-//  +------------------------------------------------------------------------+
-$cfg['mysqli_host']                 = '127.0.0.1';
-$cfg['mysqli_db']                   = 'ompd';
-$cfg['mysqli_user']                 = 'pi';
-$cfg['mysqli_password']             = 'raspberry';
-$cfg['mysqli_port']                 = '3306';
-$cfg['mysqli_socket']               = '';
-$cfg['mysqli_auto_create_db']       = true;
 
-Amend menus to include 'Back' in OMPD top menu
-    cd /var/www/htmlcd /var/www/html/ompd/skin
-    ls
-    dark_red  dark_wide  ompd_dark  ompd_darker  ompd_default  ompd_the_first  styles_inc.less
-In each of the above directories you will find the top level menu
-    cd ompd_default/
-    sudo vi template.header.php
-Find the following line
-    <div id="fixedMenu">
-Add the following line after 'favorites' menu item
-        <td class="menu_top<?php echo ($cfg['menu'] == 'back') ? ' menu_top_selected' : ''; ?>" onclick="javascript: window.location.href='/index.html';">&nbsp;back</td>
-
-Do this for each of the other schemes in the skin directory
-
-Run a build to create new version 
----------------------------------
-Save original package flie piradio_web.tar.gz 
-    cd ~develop/pi/radioweb
-    cp piradio_web.tar.gz ~/piradio_web.tar.gz.save
-Make a backup of the changed web pages. 
-    sudo tar -cvf newradioweb.tar /var/www/html /usr/lib/cgi-bin
-Overwrite the development pages with the tested live pages
-    cd ~develop/pi/radioweb
-    tar -xvf newradioweb.tar
-Build new package
-    Change the version number in the radiodweb package definition file  
-Run the new build
-    ./build.sh
-
-Updating CVS
-------------
-Only store the toplevel radioweb and usr directories in CVS. Do not add the var directory
 
