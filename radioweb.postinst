@@ -1,6 +1,6 @@
 #!/bin/bash 
 # Radio daemon post install script
-# $Id: radioweb.postinst,v 1.4 2023/11/08 17:10:26 bob Exp $
+# $Id: radioweb.postinst,v 1.5 2023/11/10 09:34:12 bob Exp $
 
 # File locations
 DIR=/usr/share/radioweb
@@ -37,6 +37,7 @@ fi
 sudo phpenmod gd
 sudo phpenmod mbstring
 
+# Move index.html out the way as the start page is now index.php
 if [[ -f ${WWW}/index.html ]]; then
     echo "Moving ${WWW}/index.html to ${WWW}/index.html.save" 
     sudo mv ${WWW}/index.html ${WWW}/index.html.save 
@@ -46,6 +47,9 @@ fi
 LINE="ServerName localhost"
 grep -qF "$LINE" "$CONFIG"  || echo "$LINE" | sudo tee --append "$CONFIG"
 # Restart web server
-apachectl start
+sudo apachectl restart
+
+echo ""
+echo "See ${DIR}/README for more information"
 
 # End of post-installation script

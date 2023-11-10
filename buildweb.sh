@@ -1,6 +1,6 @@
 #!/bin/bash
 # set -x
-# $Id: buildweb.sh,v 1.8 2023/11/08 17:27:01 bob Exp $
+# $Id: buildweb.sh,v 1.9 2023/11/10 09:30:00 bob Exp $
 # Build script for the Raspberry PI radio Web interface Snoopy/O!MPD
 # Run this script as user pi and not root
 
@@ -24,7 +24,7 @@ if [[ ${BIT} != "32" ]]; then
     exit 1
 fi
 
-# Tar build for Rasbian Bookworm (Release 12) or later
+# Tar build for Rasbian Buster (Release 10) or later
 VERSION_ID=$(grep VERSION_ID ${OS_RELEASE})
 SAVEIFS=${IFS}; IFS='='
 ID=$(echo ${VERSION_ID} | awk '{print $2}' | sed 's/"//g')
@@ -45,11 +45,14 @@ WEBTAR=piradio_web.tar.gz
 echo "Create web pages tar file ${WEBTAR}"
 if [[ -f ${WEBTAR} ]]; then
     echo "${WEBTAR} exists!"
+    echo ""
     echo " Do you wish to overwrite this from the live version in /var/www/html"
-    echo "tar file with the contents of ${WEBPAGES}"
-    echo "(If you made changes in either /var/www/html or /usr/lib/cgi-bin answer Y)"
+    echo " tar file with the contents of ${WEBPAGES}"
+    echo " (If you made changes in either /var/www/html or /usr/lib/cgi-bin answer Y)"
+    echo ""
     echo -n "Overwrite ${WEBTAR} y/n: "
     read ans
+    echo ""
     if [[ "${ans}" == 'y' ]]; then
         echo "Creating tarfile ${WEBTAR} from ${WEBPAGES}"
         tar --exclude 'CVS' -cvzf ${WEBTAR} ${WEBPAGES} > /dev/null 2>&1

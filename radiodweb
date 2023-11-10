@@ -1,6 +1,6 @@
 ### Commented entries have reasonable defaults.
 ### Uncomment to edit them.
-# $Id: radiodweb,v 1.7 2023/11/08 10:36:34 bob Exp $
+# $Id: radiodweb,v 1.9 2023/11/10 09:34:12 bob Exp $
 # Source: <source package name; defaults to package name>
 Section: misc
 Priority: optional
@@ -32,7 +32,8 @@ Architecture: armhf
 # Extra-Files: README
 
 # Files: <pair of space-separated paths; First is file to include, second is destination>
-Files: piradio_web.tar.gz  /usr/share/radioweb
+Files: piradio_web.tar.gz  /usr/share/radioweb/
+    README /usr/share/radioweb/
 
 postinst: radioweb.postinst
 postrm: radioweb.postrm

@@ -1,6 +1,6 @@
 #!/bin/bash
 # set -x
-# $Id: buildweb64.sh,v 1.5 2023/11/08 17:27:01 bob Exp $
+# $Id: buildweb64.sh,v 1.6 2023/11/10 09:34:12 bob Exp $
 # Build script for the Raspberry PI radio Web interface Snoopy/O!MPD
 # Run this script as user pi and not root
 
@@ -45,11 +45,14 @@ WEBTAR=piradio_web.tar.gz
 echo "Create web pages tar file ${WEBTAR}"
 if [[ -f ${WEBTAR} ]]; then
     echo "${WEBTAR} exists!"
-    echo " Do you wish to overwrite this from the live version in /var/www/html"
-    echo "tar file with the contents of ${WEBPAGES}"
-    echo "(If you made changes in either /var/www/html or /usr/lib/cgi-bin answer Y)"
+    echo ""
+    echo " Do you wish to overwrite this archive"
+    echo " tar file with the contents of ${WEBPAGES}"
+    echo " (If you made changes in either /var/www/html or /usr/lib/cgi-bin answer Y)"
+    echo ""
     echo -n "Overwrite ${WEBTAR} y/n: "
     read ans
+    echo ""
     if [[ "${ans}" == 'y' ]]; then
         echo "Creating tarfile ${WEBTAR} from ${WEBPAGES}"
         tar --exclude 'CVS' -cvzf ${WEBTAR} ${WEBPAGES} > /dev/null 2>&1

@@ -53,6 +53,12 @@ sudo dpkg -i radiodweb_3.0_armhf.deb
 wget https://bobrathbone.com/raspberrypi/packages/radiodweb_3.0_arm64.deb
 sudo dpkg -i radiodweb_3.0_armhf.deb
 
+Notes:
+When one of the above packages is installed the piradio_web.tar.gz file along
+with this README is copied to /usr/share/radioweb directory.
+The contents of the piradio_web.tar.gz archive are then unzipped to /var/www/html directory
+by the package installation scripts (Only available via GitHub - See below).
+
 Downloading the source from GitHub
 ==================================
 github clone https://github.com/bobrathbone/radioweb
@@ -63,7 +69,8 @@ The procedure for building the 32- and 64-bit radioweb packages is
 fully described in the following Wiki:
 https://github.com/bobrathbone/radioweb/wiki
 
-
-
+Bob Rathbone
+November 2023
+bobrathbone.com
 
 
