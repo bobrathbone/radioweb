@@ -1,6 +1,6 @@
 ### Commented entries have reasonable defaults.
 ### Uncomment to edit them.
-# $Id: radiodweb,v 1.9 2023/11/10 09:34:12 bob Exp $
+# $Id: radiodweb,v 1.10 2023/12/01 12:13:11 bob Exp $
 # Source: <source package name; defaults to package name>
 Section: misc
 Priority: optional
@@ -13,7 +13,7 @@ Standards-Version: 3.9.2
 #sudo apt-get install php8.2-mbstring
 
 Package: radiodweb
-Version: 3.0
+Version: 3.1
 Maintainer: Bob Rathbone <bob@bobrathbone.com>
 # Pre-Depends: <comma-separated list of packages>
 # Depends: <comma-separated list of packages>

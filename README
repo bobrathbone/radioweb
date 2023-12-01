@@ -1,4 +1,4 @@
-Software installation - Version 3.0
+Software installation - Version 3.1
 =================================== 
 
 The software is normally downloaded from the BRCC website:
@@ -10,8 +10,8 @@ Two packages are availble for the Bookworm OS
 
 Package                 Operating system    PHP version 
 =======                 ================    ===========
-radiodweb_3.0_armhf.deb Bookworm 32-Bit OS  PHP 8.2 
-radiodweb_3.0_arm64.deb Bookworm 64-Bit OS  PHP 8.2 
+radiodweb_3.1_armhf.deb Bookworm 32-Bit OS  PHP 8.2 
+radiodweb_3.1_arm64.deb Bookworm 64-Bit OS  PHP 8.2 
 
 Install pre-requisites
 ----------------------
@@ -45,13 +45,13 @@ Download and install the appropriate package for your architecture (32 or 64-bit
 
 32-bit OS
 ---------
-wget https://bobrathbone.com/raspberrypi/packages/radiodweb_3.0_armhf.deb
-sudo dpkg -i radiodweb_3.0_armhf.deb
+wget https://bobrathbone.com/raspberrypi/packages/radiodweb_3.1_armhf.deb
+sudo dpkg -i radiodweb_3.1_armhf.deb
 
 64-bit OS
 ---------
-wget https://bobrathbone.com/raspberrypi/packages/radiodweb_3.0_arm64.deb
-sudo dpkg -i radiodweb_3.0_armhf.deb
+wget https://bobrathbone.com/raspberrypi/packages/radiodweb_3.1_arm64.deb
+sudo dpkg -i radiodweb_3.1_armhf.deb
 
 Notes:
 When one of the above packages is installed the piradio_web.tar.gz file along
